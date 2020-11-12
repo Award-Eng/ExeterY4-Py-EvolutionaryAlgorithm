@@ -2,7 +2,7 @@ import funcs
 
 #setting bag number & pop size
 POP_SIZE = 10
-N_BAGS = 100
+N_BAGS = 10
 T_SIZE = 2 #binary T selection
 M_RATE = 1 #can change but one mutation at start
 N_GENERATIONS = 10000 # might be wrong. do check

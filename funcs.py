@@ -50,7 +50,7 @@ def generate_initial_pop(bags,pop_size, max_weight):
     pop = []
     for i in range(pop_size):
         pop_member = []
-        for j in range(100):
+        for j in range(len(bags)):
             pop_member.append(random.randint(0, 1))
 
         pop.append(pop_member)
@@ -117,14 +117,18 @@ def update_pop(pop, mutation):
         pop.append(mutation)
         #If equal
 
-"""
 
 #crossover of parents
 def crossover(parent_a, parent_b):
-    split_point = random.random()*len(parent_a)
+    split_point = random.randint(0, len(parent_a)-1)
+
+    child_c = parent_a[:split_point] + parent_b[split_point:]
+    child_d = parent_b[:split_point] + parent_a[split_point:]
     #combine both parents to give 2 children
 
+    return child_c, child_d
 
+"""
 #mutations of children and eval fitness
 def mutation(child_c, child_d, m_rate, bags):
     for i to range(m_rate)

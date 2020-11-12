@@ -14,13 +14,6 @@ class Bag:
         return f"{{id: {self.id}, weight: {self.weight}, value: {self.value}}}"
 
 
-class PopulationMember:
-
-    def __init__(self, bags, max_weight):
-        self.bags = bags
-        self.fitness = evaluate_fitness(bags, max_weight)
-
-
 def read_file(n_bags):
     """
     This function reads the input from the file BankProblem.txt and extracts the capacity of the van
@@ -64,24 +57,25 @@ def generate_initial_pop(bags,pop_size, max_weight):
 
     return pop #list of pop_members containing a list of bags
 
-def evaluate_fitness(bags, max_weight):
+def evaluate_fitness(pop_member, bags, max_weight):
     """
     This function evaluates the fitness of each population member by calculating the monetary value of each
     up to the capacity defined by the BankProblem.txt file. After that each subsequent bag is ignored
     """
-    fitness = 0
     total_weight = 0
-    for bag in bags:
-        total_weight += bag.weight
+    total_value = 0
+    for flag, bag in zip(pop_member, bags):
+        if flag == 1:
+            total_weight += bag.weight
+            total_value += bag.value
 
-        if total_weight > max_weight:
-            return fitness
-        
-        fitness += bag.value
-    return fitness
+    if total_weight <= max_weight:
+        return total_value
+    else:
+        return 0
 
 
-def tournament_selection(t_size, pop):
+def tournament_selection(pop, bags, max_weight, t_size):
     """
     This function uses Binary Tournament Selection to optain a single parent by randomly picking two,
     then selecting the parent with the better fitness. Or in case of a draw randomly selecting the parent
@@ -92,10 +86,13 @@ def tournament_selection(t_size, pop):
     parent1 = parents[0]
     parent2 = parents[1]
 
+    fitness1 = evaluate_fitness(parent1, bags, max_weight)
+    fitness2 = evaluate_fitness(parent2, bags, max_weight)
+
     #call the fitness
-    if parent1.fitness > parent2.fitness:
+    if fitness1 > fitness2:
         return parent1
-    elif parent1.fitness == parent2.fitness:
+    elif fitness1 == fitness2:
         random.choice(parents)
     else:
         return parent2

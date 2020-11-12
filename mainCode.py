@@ -25,9 +25,8 @@ for generation in range(N_GENERATIONS):
     #rank fitnesss
 
     #t_selection
-    parent_a = funcs.tournament_selection(T_SIZE, pop)
-    parent_b = funcs.tournament_selection(T_SIZE, pop)
-    exit()
+    parent_a = funcs.tournament_selection(pop, bags, capacity, T_SIZE)
+    parent_b = funcs.tournament_selection(pop, bags, capacity, T_SIZE)
 
     child_c, child_d = funcs.crossover(parent_a, parent_b)
     mutation_e, mutation_f = funcs.mutation(child_c, child_d, M_RATE, pop)

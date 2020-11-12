@@ -128,13 +128,19 @@ def crossover(parent_a, parent_b):
 
     return child_c, child_d
 
-"""
-#mutations of children and eval fitness
-def mutation(child_c, child_d, m_rate, bags):
-    for i to range(m_rate)
 
-    #evalulate fitness again
-    return mutation_e, mutation_f
+#mutations of children and eval fitness
+def mutate(child, m_count):
+    for i in range(m_count):
+        idx = random.randint(0, len(child)-1)
+
+        if child[idx] == 1:
+            child[idx] = 0
+        else:
+            child[idx] = 1
+
+
+    """
 #replace weakest
 def replace_weakest(mutation_e, mutation_f):
     if mutation_e.Fitness > bags.Fitness:

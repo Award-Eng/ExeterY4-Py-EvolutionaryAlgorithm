@@ -2,9 +2,9 @@ import funcs
 
 #setting bag number & pop size
 POP_SIZE = 10
-N_BAGS = 10
+N_BAGS = 3
 T_SIZE = 2 #binary T selection
-M_RATE = 1 #can change but one mutation at start
+M_COUNT = 1 #can change but one mutation at start
 N_GENERATIONS = 10000 # might be wrong. do check
 
 #reads the file and extracts the data
@@ -29,10 +29,12 @@ for generation in range(N_GENERATIONS):
     parent_b = funcs.tournament_selection(pop, bags, capacity, T_SIZE)
 
     child_c, child_d = funcs.crossover(parent_a, parent_b)
-    mutation_e, mutation_f = funcs.mutation(child_c, child_d, M_RATE, pop)
+    
+    funcs.mutate(child_c, M_COUNT)
+    funcs.mutate(child_d, M_COUNT)
 
-    funcs.update_pop(pop, mutation_e)
-    funcs.update_pop(pop, mutation_f)
+    funcs.update_pop(pop, child_c)
+    funcs.update_pop(pop, child_d)
 
     best_fitness = funcs.get_best_fitness(pop)
     best_fitnesses.append(best_fitness)

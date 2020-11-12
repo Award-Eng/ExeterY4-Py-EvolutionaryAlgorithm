@@ -1,5 +1,4 @@
 import random
-import pickle
 
 #class holding the bag number, weight and value of it for all bags
 class Bag:
@@ -93,7 +92,7 @@ def tournament_selection(pop, bags, max_weight, t_size):
     if fitness1 > fitness2:
         return parent1
     elif fitness1 == fitness2:
-        random.choice(parents)
+        return random.choice(parents)
     else:
         return parent2
 
@@ -146,25 +145,14 @@ def mutate(child, m_count):
             child[idx] = 1
 
 
-    """
-#replace weakest
-def replace_weakest(mutation_e, mutation_f):
-    if mutation_e.Fitness > bags.Fitness:
-        pass
-        #overwrite bag value
-    else:
-        pass
-    #nothing
+def get_best_fitness(pop, bags, max_weight):
+    best_member = pop[0]
+    max_fitness = evaluate_fitness(best_member, bags, max_weight)
 
-    if mutation.f.Fitness > bags.Fitness:
-        pass
-    #repeat of other one 
+    for pop_member in pop[1:]:
+        fitness = evaluate_fitness(pop_member, bags, max_weight)
 
-#back to binary tournament unless reaching 10,000 fitness evaluations
-#how to record the best fitness at the end of each trial & show results??
-"""
-
-def store_best_fitness(best_fitnesses):
-    graph_file = open("fitnessGraph.pkl", "w")
-    pickle.dump(best_fitnesses, graph_file)
-    graph_file.close()
+        if fitness > max_fitness:
+            max_fitness = fitness
+            best_member = pop_member
+    return max_fitness, best_member

@@ -2,7 +2,7 @@ import funcs
 
 #setting bag number & pop size
 POP_SIZE = 10
-N_BAGS = 3
+N_BAGS = 10
 T_SIZE = 2 #binary T selection
 M_COUNT = 1 #can change but one mutation at start
 N_GENERATIONS = 10000 # might be wrong. do check
@@ -33,8 +33,8 @@ for generation in range(N_GENERATIONS):
     funcs.mutate(child_c, M_COUNT)
     funcs.mutate(child_d, M_COUNT)
 
-    funcs.update_pop(pop, child_c)
-    funcs.update_pop(pop, child_d)
+    funcs.update_pop(pop, child_c, bags, capacity)
+    funcs.update_pop(pop, child_d, bags, capacity)
 
     best_fitness = funcs.get_best_fitness(pop)
     best_fitnesses.append(best_fitness)

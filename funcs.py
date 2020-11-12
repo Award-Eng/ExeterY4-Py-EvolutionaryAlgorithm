@@ -98,24 +98,30 @@ def tournament_selection(pop, bags, max_weight, t_size):
         return parent2
 
 
-def update_pop(pop, mutation):
+def update_pop(pop, child, bags, max_weight):
     """
     This function evaluates the fitness of each member of the population and finds the lowest value.
     Before then swapping it with the mutated values of each child should it be lower then they are. If
     equal then it randomly selects one
     """
     worst_member = pop[0]
-    min_fitness = worst_member.fitness
+    min_fitness = evaluate_fitness(worst_member, bags, max_weight)
 
     for pop_member in pop[1:]:
-        if pop_member.fitness < min_fitness:
-            min_fitness = pop_member.fitness
+        fitness = evaluate_fitness(pop_member, bags, max_weight)
+
+        if fitness < min_fitness:
+            min_fitness = fitness
             worst_member = pop_member
 
-    if mutation.fitness > min_fitness:
+    child_fitness = evaluate_fitness(child, bags, max_weight)
+    if child_fitness > min_fitness:
         pop.remove(worst_member)
-        pop.append(mutation)
-        #If equal
+        pop.append(child)
+    elif child_fitness == min_fitness:
+        if random.random() < 0.5:
+            pop.remove(worst_member)
+            pop.append(child)
 
 
 #crossover of parents

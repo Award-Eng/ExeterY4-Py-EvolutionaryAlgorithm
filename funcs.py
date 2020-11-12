@@ -22,10 +22,10 @@ class PopulationMember:
 
 
 def read_file(n_bags):
-"""
+    """
     This function reads the input from the file BankProblem.txt and extracts the capacity of the van
     and the weight, value and number of each of the 100 bags before storing that data in the class Bag
-"""
+    """
     bags = []
 
     with open("BankProblem.txt") as fobj:      
@@ -39,7 +39,7 @@ def read_file(n_bags):
             weight_line = fobj.readline()
             value_line = fobj.readline()
                        
-            id = int(bag_line.strip(": ").split()[1])
+            id = int(bag_line.strip().strip(":").split()[1])
             weight = float(weight_line.split()[1])
             value = float(value_line.split()[1])
 
@@ -49,17 +49,19 @@ def read_file(n_bags):
     return bags, capacity
 
 def generate_initial_pop(bags,pop_size, max_weight):
-"""
+    """
     This function generates an initial population of pop_size randomly generated solutions from the class Bags and
     stores the results in another Class PopulationMember before returning a list of pop_members containing a list of
     bags
-"""
+    """
     pop = []
     for i in range(pop_size):
-        soln = bags.copy()
-        random.shuffle(soln)
-        pop_member = PopulationMember(soln, max_weight)
+        pop_member = []
+        for j in range(100):
+            pop_member.append(random.randint(0, 1))
+
         pop.append(pop_member)
+
     return pop #list of pop_members containing a list of bags
 
 def evaluate_fitness(bags, max_weight):
@@ -100,11 +102,11 @@ def tournament_selection(t_size, pop):
 
 
 def update_pop(pop, mutation):
-"""
+    """
     This function evaluates the fitness of each member of the population and finds the lowest value.
     Before then swapping it with the mutated values of each child should it be lower then they are. If
     equal then it randomly selects one
-"""
+    """
     worst_member = pop[0]
     min_fitness = worst_member.fitness
 

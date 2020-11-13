@@ -94,26 +94,30 @@ def evaluate_fitness(pop_member, bags, max_weight):
 def tournament_selection(pop, bags, max_weight, t_size):
     """
     This function uses Tournament Selection to optain a single parent by randomly picking t_size
-    chromosomes from the population and then selecting the parent with the best fitness. 
-    Or in case of a draw, randomly selecting the parent
+    number of parents from the population and then selecting the parent with the best fitness. 
+    Or in case of a draw, randomly selecting between the two
     """
     #randomly chooses t_size number of chromosomes from the list
     parents = random.choices(pop, k=t_size)
 
-    parent1 = parents[0]
-    parent2 = parents[1]
+    #evalulates the fitness of the chromosome in the list
+    fittest_parent = parents[0]
+    current_best_fitness = evaluate_fitness(fittest_parent, bags, max_weight)
+    
+    #checks each other chromosome in the list to see if their fitness is great. If so they become the dominant chromosome
+    #if a tie occurs, one of them is randomly selected
+    for parent_member in parents[1:]:
+        new_fitness = evaluate_fitness(parent_member, bags, max_weight)
+        
+        if new_fitness > current_best_fitness:
+            current_best_fitness = new_fitness
+            fittest_parent = parent_member
+        elif new_fitness == current_best_fitness:
+            if random.random() < 0.5:
+                current_best_fitness = new_fitness
+                fittest_parent = parent_member
 
-    #determines which chromosome has the better fitness
-    fitness1 = evaluate_fitness(parent1, bags, max_weight)
-    fitness2 = evaluate_fitness(parent2, bags, max_weight)
-
-    #returns the chromosome with the best fitness/picks a random one if they are equal
-    if fitness1 > fitness2:
-        return parent1
-    elif fitness1 == fitness2:
-        return random.choice(parents)
-    else:
-        return parent2
+    return fittest_parent
 
 
 def crossover(parent_a, parent_b):

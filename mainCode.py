@@ -18,7 +18,7 @@ global, these can then be changed to allow different experiments to be performed
 to test the optimization of the EA
 """
 POP_SIZE = 100         #population size
-N_BAGS = 100
+N_BAGS = 100           #number of bags
 T_SIZE = 2             #setting the tournament size
 M_COUNT = 1            #mutation rate
 N_GENERATIONS = 10000  #max number of fitness evalulations
@@ -42,7 +42,7 @@ for generation in range(N_GENERATIONS):
     #both parents are determined here
     parent_a = funcs.tournament_selection(pop, bags, capacity, T_SIZE)
     parent_b = funcs.tournament_selection(pop, bags, capacity, T_SIZE)
-
+    
     #creation of the children
     child_c, child_d = funcs.crossover(parent_a, parent_b)
     
@@ -68,5 +68,5 @@ for generation in range(N_GENERATIONS):
 Stores the best fitness of each generation in a pkl file for plotting in the 
 plot_fitness module
 """
-with open("fitnessGraph.pkl", "wb") as f:
+with open("fitnessGraphData.pkl", "wb") as f:
     pickle.dump(best_fitnesses, f)

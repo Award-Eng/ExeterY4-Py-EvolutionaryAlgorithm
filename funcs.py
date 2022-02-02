@@ -2,6 +2,9 @@
 This module contains the functions used to run mainCode.py
 """
 
+"""
+Imports the required modules for the code to run
+"""
 import random
 
 
@@ -97,15 +100,16 @@ def tournament_selection(pop, bags, max_weight, t_size):
     number of parents from the population and then selecting the parent with the best fitness. 
     Or in case of a draw, randomly selecting between the two
     """
-    #randomly chooses t_size number of chromosomes from the list
+    #randomly chooses t_size number of parents from the list
     parents = random.choices(pop, k=t_size)
 
-    #evalulates the fitness of the chromosome in the list
+    #evalulates the fitness of the first parent and sets this as the current best fitness
     fittest_parent = parents[0]
     current_best_fitness = evaluate_fitness(fittest_parent, bags, max_weight)
     
-    #checks each other chromosome in the list to see if their fitness is great. If so they become the dominant chromosome
-    #if a tie occurs, one of them is randomly selected
+    #checks all the other parents in the list to see if their fitness is greater then the current best fitness. 
+    #If so, they become the dominant parent. If a tie occurs, one of them is randomly selected. Returns the parent
+    #with the best fitness
     for parent_member in parents[1:]:
         new_fitness = evaluate_fitness(parent_member, bags, max_weight)
         
@@ -155,8 +159,8 @@ def update_pop(pop, child, bags, max_weight):
     Before replacing it with the mutated values of the child should the childs fitness be greater than it. 
     If it is equal then it randomly selects one. This function performs Weakest Replacement
     """
-    worst_member = pop[0]
     #sets the first value in the population list to be the minimum fitness
+    worst_member = pop[0]
     min_fitness = evaluate_fitness(worst_member, bags, max_weight)
 
     #finds the worest fitness in the current population updating as it finds a lower value
@@ -171,7 +175,7 @@ def update_pop(pop, child, bags, max_weight):
     child_fitness = evaluate_fitness(child, bags, max_weight)
 
     #replaces the weakest population member with the mutated child if the childs fitness is
-    #greater then the weakest population member
+    #greater then the weakest population member. Splitting ties randomly
     if child_fitness > min_fitness:
         pop.remove(worst_member)
         pop.append(child)
@@ -185,6 +189,7 @@ def get_best_fitness(pop, bags, max_weight):
     """
     This function determines the best fitness of each generation
     """
+    #sets the first population member as current max fitness
     best_member = pop[0]
     max_fitness = evaluate_fitness(best_member, bags, max_weight)
 

@@ -1,13 +1,18 @@
-import random
+
+def inc(i):
+    i += 1
+
+def inclist(ls):
+    ls += [1]
 
 
-ls = [1, 2, 3, 4, 5]
+x = 5
+print(x)
+inc(x)
 
-new_ls = ls[1:]
-new_ls2 = ls[1:3]
-new_ls3 = ls[1:-2]
+print(x)
 
-print(ls)
-print(new_ls)
-print(new_ls2)
-print(new_ls3)
+newls = [1, 2, 3]
+print(newls)
+inclist(newls)
+print(newls)
